@@ -1,0 +1,68 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+
+// put local interproject dependencies here. Remove this if it is not needed
+dependencies {
+    compile project(':local-project-name')
+}
+
+// ------- do not edit below this line --------
+
+// set maven coordinates
+group = project.bndWorkspace.getBase().getName()
+version = project.bndWorkspace.getProject(project.name).getProperty('Bundle-Version')
+
+publishing {
+    repositories {
+        mavenLocal()
+        maven {
+            name "flairbit-maven"
+            url "https://nexus.dev.flairbit.io/nexus/content/repositories/flairbit-maven"
+            credentials {
+                username mavenUser
+                password mavenPassword
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            artifact source: "${projectDir}/generated/" + artifactId + '.jar', extension: 'jar'
+        }
+    }
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            name "flairbit-maven"
+            url "https://nexus.dev.flairbit.io/nexus/content/repositories/flairbit-maven"
+            credentials {
+                username mavenUser
+                password mavenPassword
+            }
+        }
+    }
+    dependencies {
+        classpath group: 'com.flairbit', name: 'com.flairbit.dart', version: '1.2'
+        classpath group: 'com.github.docker-java', name: 'docker-java', version: '2.1.1'
+        classpath group: 'com.bmuschko', name: 'gradle-docker-plugin', version: '2.6.5'
+        classpath group: 'org.apache.karaf.features', name: 'org.apache.karaf.features.core', version: '4.0.3'
+    }
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        name "flairbit-maven"
+        url "https://nexus.dev.flairbit.io/nexus/content/repositories/flairbit-maven"
+        credentials {
+            username mavenUser
+            password mavenPassword
+        }
+    }
+}
+apply plugin: 'com.flairbit.dart'

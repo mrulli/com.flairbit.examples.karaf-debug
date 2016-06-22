@@ -1,4 +1,27 @@
+# Ad-hoc gradle settings
 .gradle/
-/generated/
+
+# Workspace files
 enroute.zip
 .metadata
+cnf/maven-local.mvn
+
+# Binaries folders
+**/bin
+**/generated/
+**/target/
+**/runbundles
+**/docker/karaf/esa
+**/docker/karaf/kar
+**/docker/karaf/features
+**/flairbit-container-kar
+
+# Enhancement by-products
+**/openjpa_deps/
+
+# Logs
+**/log
+
+# legacy ignore directives
+
+local.properties

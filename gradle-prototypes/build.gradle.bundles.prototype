@@ -1,0 +1,48 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+
+// put local interproject dependencies here. Remove this if it is not needed
+dependencies {
+    compile project(':local-project-name')
+}
+
+// ------- do not edit below this line --------
+
+// set maven coordinates
+group = project.bndWorkspace.getBase().getName()
+version = project.bndWorkspace.getProject(project.name).getProperty('Bundle-Version')
+
+publishing {
+    repositories {
+        mavenLocal()
+        maven {
+            name "flairbit-maven"
+            url "https://nexus.dev.flairbit.io/nexus/content/repositories/flairbit-maven"
+            credentials {
+                username mavenUser
+                password mavenPassword
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            artifact source: "${projectDir}/generated/" + artifactId + '.jar', extension: 'jar'
+        }
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        name "flairbit-maven"
+        url "https://nexus.dev.flairbit.io/nexus/content/repositories/flairbit-maven"
+        credentials {
+            username mavenUser
+            password mavenPassword
+        }
+    }
+}
+

@@ -1,3 +1,25 @@
 #
 # This file is left open for you to define your macros
 #
+-runproperties: osgi.console=""
+
+# allow resolving bundles using maven artifacts (see http://bnd.bndtools.org/plugins/maven.html)
+-plugin.wrapper: \
+	aQute.bnd.deployer.repository.wrapper.Plugin; \
+		location            =	"${build}/cache/wrapper"; \
+		reindex				=	true
+
+# Support to publish artifacts on maven local
+-plugin.mvnlocal: \
+    aQute.bnd.repository.maven.provider.MavenBndRepository; \
+		name				=	Maven-Local
+
+# Support maven central
+-plugin.central = \
+	aQute.bnd.repository.maven.provider.MavenBndRepository; \
+		releaseUrl=http://repo1.maven.org/maven2/    ; \
+		name="Maven-Central"; readOnly=true
+
+Bundle-Copyright: Copyright notice, 2016/2017
+Bundle-Vendor: FlairBit s.r.l.
+
